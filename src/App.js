@@ -1,4 +1,3 @@
-import "./App.css";
 
 import search_icon from "./Assets/search.png";
 import clear_icon from "./Assets/clear.png";
@@ -6,7 +5,6 @@ import cloud_icon from "./Assets/cloud.png";
 import drizzle_icon from "./Assets/drizzle.png";
 import rain_icon from "./Assets/rain.png";
 import snow_icon from "./Assets/snow.png";
-
 
 import { useState } from "react";
 
@@ -26,7 +24,6 @@ function App() {
     const url = `https://api.openweathermap.org/data/2.5/weather?q=${searchItem}&appid=${api_key}&units=imperial`; 
 
     try{
-
 
       const response = await fetch(url); 
       const data  = await response.json();
@@ -54,50 +51,56 @@ function App() {
       }
 
 
-
-
-
-
-
-
-
-
-
-    }catch(error){
+    } catch(error){
       console.log(error);
     }
-
   }
 
 
-
-
   return (
-    <div className="container w-[607px] h-[829px] mx-auto rounded-[12px] mt-[75px] bg-gradient-to-b from-gray-500 to-black">
+    <div className="full-container pb-[60px]">
       <div className="top-bar flex justify-center pt-[60px] gap-[14px]">
         <input
           type="text"
-          className="text flex w-[362px] h-[78px] bg-white border-none rounded-full pl-[40px] text-gray-500 font-normal outline-none text-[20px]"
+          className="text flex w-[50%] h-[78px] bg-[#2C336D] border-none rounded-full pl-[40px] text-gray-500 font-normal outline-none text-[20px]"
           placeholder="Search"
           value={searchItem}
           onChange={ e => setSearchItem(e.target.value)}
         />
-
-        <div className="search-icon flex justify-center w-[78px] h-[78px] bg-yellow-400 rounded-full cursor-pointer items-center" onClick={search}>
+        <div className="search-icon flex justify-center w-[78px] h-[78px] bg-[#2C336D] rounded-full cursor-pointer items-center" onClick={search}>
           <img src={search_icon} alt="search" />
         </div>
       </div>
-      <div className="weather-image mt-[29px] flex justify-center ">
+      <div className="container w-[607px] h-[829px] mx-auto rounded-[12px] mt-[75px] bg-gradient-to-b from-[#2C336D] to-[#888FC9]">
+      
+      <div className="weather-image pt-[70px] flex justify-center">
         <img src={w_icon} alt="" />
       </div>
-      <div className="weather-temp flex justify-center text-white text-[120px] font-normal">
+      <div className="now flex mt-[23px] justify-center text-[#fff] text-[50px] font-bold">
+        <p>N O W</p>
+      </div>
+      <div className="weather-temp flex justify-center text-white text-[120px] font-thin">
        {temparature}
       </div>
-      <div className="weather-location flex justify-center text-white text-[60px] font-normal ">
+      <div className="weather-location flex justify-center text-white text-[60px] font-thin ">
        {location}
       </div>
+      <div className="weather-highlow mt-[20px] flex justify-center text-center gap-10 text-[20px]">
+        <div className="weather-high text-orange-300 font-extrabold">
+          <div>120°F</div>
+          <div>High</div>
+          </div>
+          <div className="divider text-gray-600"> | </div>
+        <div className="weather-low text-blue-300 font-extrabold">
+          <div>-40°F</div>
+          <div>Low</div>
+        </div>
+      </div>
+
     </div>
-  );
+
+    </div>
+      );
 }
 
 export default App;
