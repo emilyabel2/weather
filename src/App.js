@@ -9,10 +9,12 @@ import snow_icon from "./Assets/snow.png";
 import { useState } from "react";
 
 function App() {
-  const api_key = "56cd94bbcb55eba35a4bbd7126df5058";
+  const api_key = "08de2ad7dfc7a3e9d91d1e9a29adea2d"; //This is Emily's key thats not current avaliable?
 
   const[temparature, setTemparature] = useState("50 °F");
-  const[location, setLocation] = useState("New York");
+  const[location, setLocation] = useState("West Springfield");
+  const[low, setLow] = useState("1 °F");
+  const[high, setHigh] = useState("120 °F");
   const[searchItem, setSearchItem] = useState("");
   const[w_icon, setW_icon] = useState(cloud_icon);
 
@@ -29,6 +31,8 @@ function App() {
       const data  = await response.json();
       setLocation(data.name);
       setTemparature(Math.floor(data.main.temp) + "°F");
+      setLow(Math.floor(data.main.temp_min) + "°F"); //not functioning note 17:40
+      setHigh(Math.floor(data.main.temp_max) + "°F"); //not functioning
 
       // set weather icon
 
@@ -58,47 +62,45 @@ function App() {
 
 
   return (
-    <div className="full-container pb-[60px]">
+    <div className="full-container bg-gradient-to-b from-[#A7D9EE] to-white pb-[60px]">
       <div className="top-bar flex justify-center pt-[60px] gap-[14px]">
         <input
           type="text"
-          className="text flex w-[50%] h-[78px] bg-[#2C336D] border-none rounded-full pl-[40px] text-gray-500 font-normal outline-none text-[20px]"
-          placeholder="Search"
+          className="text flex w-[50%] h-[78px] bg-white border-none rounded-full pl-[40px] text-gray-500 font-normal outline-none text-[20px]"
+          placeholder="Search . . . "
           value={searchItem}
           onChange={ e => setSearchItem(e.target.value)}
         />
-        <div className="search-icon flex justify-center w-[78px] h-[78px] bg-[#2C336D] rounded-full cursor-pointer items-center" onClick={search}>
+        <div className="search-icon flex justify-center w-[78px] h-[78px] bg-white rounded-full cursor-pointer items-center" onClick={search}>
           <img src={search_icon} alt="search" />
         </div>
       </div>
+
       <div className="container w-[607px] h-[829px] mx-auto rounded-[12px] mt-[75px] bg-gradient-to-b from-[#2C336D] to-[#888FC9]">
-      
-      <div className="weather-image pt-[70px] flex justify-center">
-        <img src={w_icon} alt="" />
-      </div>
-      <div className="now flex mt-[23px] justify-center text-[#fff] text-[50px] font-bold">
-        <p>N O W</p>
-      </div>
-      <div className="weather-temp flex justify-center text-white text-[120px] font-thin">
-       {temparature}
-      </div>
-      <div className="weather-location flex justify-center text-white text-[60px] font-thin ">
-       {location}
-      </div>
-      <div className="weather-highlow mt-[20px] flex justify-center text-center gap-10 text-[20px]">
-        <div className="weather-high text-orange-300 font-extrabold">
-          <div>120°F</div>
-          <div>High</div>
-          </div>
-          <div className="divider text-gray-600"> | </div>
+        <div className="day flex justify-center pt-[30px] font-extrabold text-white text-[60px]">TODAY</div>
+        <div className="weather-image  flex justify-center">
+          <img src={w_icon} alt="" />
+        </div>
+        <div className="now flex mt-[23px] justify-center text-[#fff] text-[50px] font-normal">
+          <p>N O W</p>
+        </div>
+        <div className="weather-temp flex justify-center text-white text-[120px] font-thin">
+        {temparature}
+        </div>
+        <div className="weather-location flex justify-center text-white text-[60px] font-thin ">
+        {location}
+        </div>
+        <div className="weather-highlow mt-[20px] flex justify-center text-center gap-10 text-[20px]">
         <div className="weather-low text-blue-300 font-extrabold">
-          <div>-40°F</div>
-          <div>Low</div>
+            {low}
+            <div>Low</div>
+          </div>
+          <div className="weather-high text-orange-300 font-extrabold pl-8 border-l-2 border-[#C1BDBD]">
+            {high}
+            <div>High</div>
+            </div>
         </div>
       </div>
-
-    </div>
-
     </div>
       );
 }
