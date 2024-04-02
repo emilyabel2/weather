@@ -10,7 +10,7 @@ import ForecastCard from "./components/forecastCard";
 import { useState, useEffect } from "react";
 
 function App() {
-  const api_key = "08de2ad7dfc7a3e9d91d1e9a29adea2d"; //This is Emily's key thats not current avaliable?
+  const api_key = "08de2ad7dfc7a3e9d91d1e9a29adea2d"; //This is Emily's key it's active
 
   //forecast props
   const[temperature, setTemperature] = useState("50 °F");
@@ -49,7 +49,6 @@ function App() {
     }
 
     try{
-
       const response = await fetch(url); 
       const data  = await response.json();
       setLocation(data.name);
