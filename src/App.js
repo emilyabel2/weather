@@ -9,7 +9,7 @@ import snow_icon from "./Assets/snow.png";
 import { useState } from "react";
 
 function App() {
-  const api_key = "08de2ad7dfc7a3e9d91d1e9a29adea2d"; //This is Emily's key thats not current avaliable?
+  const api_key = "08de2ad7dfc7a3e9d91d1e9a29adea2d"; //This is Emily's key it's active
 
   const[temparature, setTemparature] = useState("50 °F");
   const[location, setLocation] = useState("West Springfield");
@@ -26,13 +26,12 @@ function App() {
     const url = `https://api.openweathermap.org/data/2.5/weather?q=${searchItem}&appid=${api_key}&units=imperial`; 
 
     try{
-
       const response = await fetch(url); 
       const data  = await response.json();
       setLocation(data.name);
       setTemparature(Math.floor(data.main.temp) + "°F");
-      setLow(Math.floor(data.main.temp_min) + "°F"); //not functioning note 17:40
-      setHigh(Math.floor(data.main.temp_max) + "°F"); //not functioning
+      setLow(Math.floor(data.main.temp_min) + "°F");
+      setHigh(Math.floor(data.main.temp_max) + "°F");
 
       // set weather icon
 
