@@ -5,35 +5,59 @@ import cloud_icon from "./Assets/cloud.png";
 import drizzle_icon from "./Assets/drizzle.png";
 import rain_icon from "./Assets/rain.png";
 import snow_icon from "./Assets/snow.png";
+import ForecastCard from "./components/forecastCard";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 function App() {
   const api_key = "08de2ad7dfc7a3e9d91d1e9a29adea2d"; //This is Emily's key thats not current avaliable?
 
-  const[temparature, setTemparature] = useState("50 °F");
+  //forecast props
+  const[temperature, setTemperature] = useState("50 °F");
   const[location, setLocation] = useState("West Springfield");
   const[low, setLow] = useState("1 °F");
   const[high, setHigh] = useState("120 °F");
   const[searchItem, setSearchItem] = useState("");
   const[w_icon, setW_icon] = useState(cloud_icon);
+  const[dayValue, setDay] = useState("");
 
-  const search = async () =>{
+  //day formats
+  const today = new Date();
+  const yesterday = new Date(today);
+  yesterday.setDate(today.getDate() - 1);
+  const tomorrow = new Date(today);
+  tomorrow.setDate(today.getDate() + 1);
+  
+  function getDayMonth(date) {
+    const dateObject = new Date(date);
+    const day = dateObject.getDate();
+    const month = dateObject.toLocaleString("default", {month:"short"});
+
+    return `${month} ${day}`;
+
+  }
+
+  
+
+  //urls
+  const url = `https://api.openweathermap.org/data/2.5/weather?q=${searchItem}&appid=${api_key}&units=imperial&exclude={minutely}`;
+  const historical_url = `https://api.openweathermap.org/data/2.5/timemachine?q=${searchItem}&dt=${yesterday}&appid=${api_key}&units=imperial$exclude=minutely`
+
+  const Search = async () =>{
     if(searchItem.trim() === ""){
       return 0;
     }
-
-    const url = `https://api.openweathermap.org/data/2.5/weather?q=${searchItem}&appid=${api_key}&units=imperial`; 
 
     try{
 
       const response = await fetch(url); 
       const data  = await response.json();
       setLocation(data.name);
-      setTemparature(Math.floor(data.main.temp) + "°F");
+      setTemperature(Math.floor(data.main.temp) + "°F");
       setLow(Math.floor(data.main.temp_min) + "°F"); //not functioning note 17:40
       setHigh(Math.floor(data.main.temp_max) + "°F"); //not functioning
-
+      setDay(getDayMonth(today));
+            
       // set weather icon
 
       if(data.weather[0].icon === "01d" || data.weather[0].icon === "01n"){
@@ -66,42 +90,32 @@ function App() {
       <div className="top-bar flex justify-center pt-[60px] gap-[14px]">
         <input
           type="text"
-          className="text flex w-[50%] h-[78px] bg-white border-none rounded-full pl-[40px] text-gray-500 font-normal outline-none text-[20px]"
-          placeholder="Search . . . "
+          className="text flex w-[50%] h-[48px] bg-white border-none rounded-full pl-[40px] text-gray-500 font-normal outline-none text-[20px]"
+          placeholder="Search..."
           value={searchItem}
           onChange={ e => setSearchItem(e.target.value)}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") {
+              Search();
+            }
+          }}
         />
-        <div className="search-icon flex justify-center w-[78px] h-[78px] bg-white rounded-full cursor-pointer items-center" onClick={search}>
+
+        <div className="search-icon flex justify-center w-[78px] h-[48px] bg-white rounded-full cursor-pointer items-center" onClick={Search}>
           <img src={search_icon} alt="search" />
         </div>
       </div>
-
-      <div className="container w-[607px] h-[829px] mx-auto rounded-[12px] mt-[75px] bg-gradient-to-b from-[#2C336D] to-[#888FC9]">
-        <div className="day flex justify-center pt-[30px] font-extrabold text-white text-[60px]">TODAY</div>
-        <div className="weather-image  flex justify-center">
-          <img src={w_icon} alt="" />
-        </div>
-        <div className="now flex mt-[23px] justify-center text-[#fff] text-[50px] font-normal">
-          <p>N O W</p>
-        </div>
-        <div className="weather-temp flex justify-center text-white text-[120px] font-thin">
-        {temparature}
-        </div>
-        <div className="weather-location flex justify-center text-white text-[60px] font-thin ">
-        {location}
-        </div>
-        <div className="weather-highlow mt-[20px] flex justify-center text-center gap-10 text-[20px]">
-        <div className="weather-low text-blue-300 font-extrabold">
-            {low}
-            <div>Low</div>
-          </div>
-          <div className="weather-high text-orange-300 font-extrabold pl-8 border-l-2 border-[#C1BDBD]">
-            {high}
-            <div>High</div>
-            </div>
-        </div>
+        <div className="justify-center">
+          <ForecastCard
+            temperature={temperature}
+            location={location}
+            low={low}
+            high={high}
+            w_icon={w_icon}
+            day={dayValue}
+          />
+       </div>
       </div>
-    </div>
       );
 }
 
