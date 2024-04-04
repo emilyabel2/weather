@@ -1,20 +1,21 @@
 import React from 'react';
 
 const ForecastCard = ({temperature, location, low, high, w_icon, day, weather}) => {
+  const iconPath = require(`../Assets/${w_icon}.png`);
   return(
-        <div className="container w-[607px] h-[829px] mx-auto rounded-[12px] mt-[75px] bg-gradient-to-b from-[#2C336D] to-[#888FC9]">
+        <div className="container w-[407px] h-[607px] mx-auto rounded-[12px] mt-[75px] bg-gradient-to-b from-[#2C336D] to-[#888FC9]">
         <div className="day flex justify-center pt-[30px] font-extrabold text-white text-[60px]">{day}</div>
-        <div className="weather-image  flex justify-center">
+        <div className="weather-image h-[120px] flex justify-center">
           {/* this doesnt work right yet */}
-          <img src={`./Assets/${w_icon}.png`} alt={weather} /> 
+          <img src={iconPath} alt={weather} /> 
         </div>
-        <div className="now flex mt-[23px] justify-center text-[#fff] text-[50px] font-normal">
+        <div className="now flex mt-[10px] justify-center text-[#fff] text-[40px] font-normal">
           <p>N O W</p>
         </div>
-        <div className="weather-temp flex justify-center text-white text-[120px] font-thin">
+        <div className="weather-temp flex justify-center text-white text-[90px] font-thin">
         {temperature}°F
         </div>
-        <div className="weather-location flex justify-center text-white text-[60px] font-thin ">
+        <div className="weather-location flex justify-center text-white text-[30px] font-thin ">
         {location}
         </div>
         <div className="weather-highlow mt-[20px] flex justify-center text-center gap-10 text-[20px]">

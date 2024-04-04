@@ -1,0 +1,52 @@
+.parent-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 30px; 
+}
+
+.stacked-carousel {
+    display: flex;
+    max-width: 75%;
+    overflow: hidden;
+    align-items: center;
+}
+
+.carousel-items {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    margin-bottom: 20px;
+    transition: transform 1s;
+    transform: translateX(calc(-33.33% * var(--index)));
+}
+
+.forecast-card {
+    flex: 1;
+    max-width: 33.33%;
+    transition: opacity 0.3s;
+    opacity: 0.7;
+    transform:scale(0.7);
+}
+
+.forecast-card.center {
+    transform: scale(1);
+    opacity: 1;
+}
+
+.carousel-button {
+    font-size: 20px;
+    padding: 10px 20px; 
+    margin: 0 175px; 
+    border: none;
+    border-radius: 5px;
+    background-color: #6A73BE; 
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.carousel-button:hover {
+    background-color: #1C2047; 
+}
